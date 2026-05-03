@@ -1,4 +1,6 @@
 import { DataSource } from "typeorm";
+import { Patient } from "./entity/Patient";
+import { Visit } from "./entity/Visit";
 
 export const AppDataSource = new DataSource({
     type: "mysql",
@@ -9,7 +11,7 @@ export const AppDataSource = new DataSource({
     database: "medical_db",
     synchronize: true,
     logging: true,
-    entities: [], // ide kerül majd a többi entitás is
+    entities: [Patient, Visit],
     subscribers: [],
     migrations: [],
 });
