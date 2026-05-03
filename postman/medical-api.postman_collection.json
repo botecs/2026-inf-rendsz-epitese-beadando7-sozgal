@@ -1,0 +1,195 @@
+{
+  "info": {
+    "_postman_id": "6f56b15a-ef51-4f59-a0f1-f8c87d4696ca",
+    "name": "Medical API - Patients, Visits, Screenings",
+    "description": "Collection for local development testing of the medical registry API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api"
+    },
+    {
+      "key": "patientId",
+      "value": "1"
+    },
+    {
+      "key": "visitId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Patients",
+      "item": [
+        {
+          "name": "Get All Patients",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/patients"
+          }
+        },
+        {
+          "name": "Get Patient By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/patients/{{patientId}}"
+          }
+        },
+        {
+          "name": "Create Patient",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  const data = pm.response.json();",
+                  "  if (data && data.id) {",
+                  "    pm.collectionVariables.set('patientId', String(data.id));",
+                  "  }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Teszt Elek\",\n  \"taj\": \"123456789\",\n  \"birthDate\": \"1990-01-15\",\n  \"gender\": \"male\"\n}"
+            },
+            "url": "{{baseUrl}}/patients"
+          }
+        },
+        {
+          "name": "Update Patient",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": {{patientId}},\n  \"name\": \"Teszt Elek Frissitve\",\n  \"taj\": \"123456789\",\n  \"birthDate\": \"1990-01-15\",\n  \"gender\": \"male\"\n}"
+            },
+            "url": "{{baseUrl}}/patients"
+          }
+        },
+        {
+          "name": "Delete Patient",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/patients/{{patientId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Visits",
+      "item": [
+        {
+          "name": "Get All Visits",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/visits"
+          }
+        },
+        {
+          "name": "Create Visit",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  const data = pm.response.json();",
+                  "  if (data && data.id) {",
+                  "    pm.collectionVariables.set('visitId', String(data.id));",
+                  "  }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2026-05-01\",\n  \"diagnosis\": \"Kontroll vizit\",\n  \"medications\": \"Nincs\",\n  \"treatments\": \"Megfigyeles\",\n  \"documents\": \"labor\",\n  \"patient\": {\n    \"id\": {{patientId}}\n  }\n}"
+            },
+            "url": "{{baseUrl}}/visits"
+          }
+        },
+        {
+          "name": "Get Visit History By Patient",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/visits/history/{{patientId}}"
+          }
+        },
+        {
+          "name": "Update Visit",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": {{visitId}},\n  \"date\": \"2026-05-02\",\n  \"diagnosis\": \"Kontroll vizit frissitve\",\n  \"medications\": \"Nincs\",\n  \"treatments\": \"Megfigyeles\",\n  \"documents\": \"labor-friss\",\n  \"patient\": {\n    \"id\": {{patientId}}\n  }\n}"
+            },
+            "url": "{{baseUrl}}/visits"
+          }
+        },
+        {
+          "name": "Delete Visit",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/visits/{{visitId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Screenings",
+      "item": [
+        {
+          "name": "Get Screenings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/screenings"
+          }
+        }
+      ]
+    }
+  ]
+}
