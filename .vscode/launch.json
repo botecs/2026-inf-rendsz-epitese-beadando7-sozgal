@@ -3,18 +3,30 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "ng serve",
+      "name": "Frontend (Chrome)",
       "type": "chrome",
       "request": "launch",
       "preLaunchTask": "npm: start",
-      "url": "http://localhost:4200/"
+      "url": "http://localhost:4200/",
+      "webRoot": "${workspaceFolder}/src"
     },
     {
-      "name": "ng test",
-      "type": "chrome",
-      "request": "launch",
-      "preLaunchTask": "npm: test",
-      "url": "http://localhost:9876/debug.html"
+      "name": "Backend (Node)",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "preLaunchTask": "Backend: dev",
+      "cwd": "${workspaceFolder}/backend",
+      "localRoot": "${workspaceFolder}/backend",
+      "remoteRoot": "${workspaceFolder}/backend",
+      "protocol": "inspector",
+      "skipFiles": ["<node_internals>/**"]
+    },
+  ],
+  "compounds": [
+    {
+      "name": "Full Stack (Frontend + Backend)",
+      "configurations": ["Frontend (Chrome)", "Backend (Node)"]
     }
   ]
 }
